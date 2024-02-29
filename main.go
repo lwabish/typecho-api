@@ -23,12 +23,12 @@ var (
 )
 
 func init() {
-	flag.StringVar(&dbType, "dbType", "mysql", "database type")
-	flag.StringVar(&host, "host", "localhost", "database host")
-	flag.IntVar(&port, "port", 3307, "database port")
-	flag.StringVar(&user, "user", "root", "database user")
-	flag.StringVar(&password, "password", "root", "database password")
-	flag.StringVar(&dbname, "dbname", "typecho", "database name")
+	flag.StringVar(&dbType, "t", "mysql", "database type")
+	flag.StringVar(&host, "h", "localhost", "database host")
+	flag.IntVar(&port, "p", 3307, "database port")
+	flag.StringVar(&user, "u", "root", "database user")
+	flag.StringVar(&password, "pd", "root", "database password")
+	flag.StringVar(&dbname, "n", "typecho", "database name")
 }
 
 func main() {
