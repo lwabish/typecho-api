@@ -24,6 +24,26 @@ func (h *Handler) Publish(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, err)
 		return
 	}
+
+	if tc.IsNewPost() {
+		tc.PostDefault()
+		if r := h.db.Create(tc); r.Error != nil || r.RowsAffected != 1 {
+			c.JSON(http.StatusInternalServerError, r.Error)
+			return
+		}
+		c.JSON(http.StatusCreated, tc.Cid)
+	} else {
+		old := &models.TypechoContent{Cid: tc.Cid}
+		if r := h.db.First(old); r.Error != nil || r.RowsAffected != 1 {
+			c.JSON(http.StatusNotFound, r.Error)
+			return
+		}
+		old.UpdatePost(tc)
+		if r := h.db.Save(old); r.Error != nil || r.RowsAffected != 1 {
+			c.JSON(http.StatusInternalServerError, r.Error)
+		}
+		c.JSON(http.StatusOK, tc.Cid)
+	}
 }
 
 func (h *Handler) Setup(db *gorm.DB, l *log.Logger) {

@@ -6,5 +6,5 @@ ensure-gen-tool:
 	go install gorm.io/gen/tools/gentool@latest; fi
 
 gen-model: ensure-gen-tool
-	rm -f models/*.go
+	rm -f models/*.gen.go
 	$(GEN_TOOL) -c ./models/gorm-gen.yml
