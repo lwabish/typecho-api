@@ -4,6 +4,8 @@ database:
   dsn: root:root@tcp(127.0.0.1:3307)/typecho?charset=utf8mb4&parseTime=True&loc=Local
   tables:
     - typecho_contents
+    - typecho_metas
+    - typecho_relationships
   outPath: models
   modelPkgName: models
   onlyModel: true
