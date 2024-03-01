@@ -20,7 +20,7 @@
   - [ ] 鉴权
 - [ ] 验证：在本地对接typecho，验证对数据库的操作无致命问题
 - [ ] 部署
-  - [ ] 容器化
+  - [ ] 容器化（试用https://github.com/ko-build/ko）
   - [ ] k8s
 
 ## Usage
