@@ -12,7 +12,7 @@ func (c *TypechoContent) PostDefault() {
 	c.AllowFeed = "1"
 	c.Created = int32(time.Now().Unix())
 	c.Modified = int32(time.Now().Unix())
-	// todo: wordCount created modified
+	// todo: wordCount
 	// todo: markdown basic
 	// markdown wrapper
 	// todo: markdown advanced
