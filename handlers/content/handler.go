@@ -19,12 +19,13 @@ type Handler struct {
 }
 
 func (h *Handler) Publish(c *gin.Context) {
-	tc := &models.TypechoContent{}
-	if err := c.ShouldBindWith(tc, binding.JSON); err != nil {
+	v := vo{}
+	if err := c.ShouldBindWith(&v, binding.JSON); err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
+	tc := v.Content
 	if tc.IsNewPost() {
 		tc.PostDefault()
 		if r := h.db.Create(tc); r.Error != nil || r.RowsAffected != 1 {
@@ -43,6 +44,17 @@ func (h *Handler) Publish(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, r.Error.Error())
 		}
 		c.JSON(http.StatusOK, tc.Cid)
+	}
+
+	// 更新标签和分类
+	for _, meta := range v.aggregateMeta() {
+		tm, err := models.GetMeta(h.db, meta)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, err.Error())
+		}
+		if err = models.AddRelationship(h.db, tc.Cid, tm.Mid); err != nil {
+			c.JSON(http.StatusInternalServerError, err.Error())
+		}
 	}
 }
 
