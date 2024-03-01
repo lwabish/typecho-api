@@ -1,9 +1,9 @@
-# typecho-api
+# Typecho-api
 
 - 提供http api，直接对接操作typecho数据库
 - 目前仅实现了创建/更新文章接口，对接typora的导出功能即可实现typora写完文章后直接发布到typecho
 
-## doing
+## Roadmap
 
 - [ ] typora对接api方案和实现
 - [x] 创建文章
@@ -18,12 +18,12 @@
   - [ ] 自动拼写检查（调用AI服务实现）
   - [ ] 自动添加文末原文链接，防采集
   - [ ] 鉴权
-- [] 验证：在本地对接typecho，验证对数据库的操作无致命问题
-- [] 部署
+- [ ] 验证：在本地对接typecho，验证对数据库的操作无致命问题
+- [ ] 部署
   - [ ] 容器化
   - [ ] k8s
 
-## usage
+## Usage
 
 ```bash
   -h string
@@ -40,7 +40,7 @@
     	database user (default "root")
 ```
 
-## interface
+## 接口文档
 
 新建文章
 ```bash
