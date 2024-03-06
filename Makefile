@@ -8,3 +8,14 @@ ensure-gen-tool:
 gen-model: ensure-gen-tool
 	rm -f models/*.gen.go
 	$(GEN_TOOL) -c ./models/gorm-gen.yml
+
+setup-env:
+	docker compose up --build -d
+
+teardown-env:
+	docker compose down -v
+
+run-test:
+	go test -v ./...
+
+test: setup-env run-test teardown-env

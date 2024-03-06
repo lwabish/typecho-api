@@ -1,0 +1,53 @@
+version: "3"
+services:
+  mariadb:
+    #restart: always
+    container_name: mariadb
+    image: mariadb
+    healthcheck:
+      test: [ "CMD", "mariadb", "-u", "root", "-proot","-e","select 1" ]
+      interval: 2s
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MARIADB_DATABASE: typecho
+    ports:
+      - "3306:3306"
+    volumes:
+      #      - mariadb:/var/lib/mysql
+      - .hack/my.cnf:/etc/mysql/conf.d/my.cnf
+  typecho:
+    container_name: typecho
+    image: joyqi/typecho:1.2.1-php8.0-apache
+    ports:
+      - "8000:80"
+    environment:
+      "TIMEZONE": "Asia/Shanghai"
+      "TYPECHO_INSTALL": "1"
+      "TYPECHO_DB_ADAPTER": "Pdo_Mysql"
+      "TYPECHO_DB_HOST": "mariadb"
+      "TYPECHO_DB_PORT": "3306"
+      "TYPECHO_DB_USER": "root"
+      "TYPECHO_DB_PASSWORD": "root"
+      "TYPECHO_DB_DATABASE": "typecho"
+      "TYPECHO_SITE_URL": "http://127.0.0.1:8000"
+      "TYPECHO_USER_NAME": "admin"
+      "TYPECHO_USER_PASSWORD": "admin"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+  api:
+    container_name: typecho-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    command:
+      - "-h"
+      - "mariadb"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+#volumes:
+#  mariadb:
+#  typecho:

@@ -25,7 +25,7 @@ var (
 func init() {
 	flag.StringVar(&dbType, "t", "mysql", "database type <mysql>")
 	flag.StringVar(&host, "h", "localhost", "database host")
-	flag.IntVar(&port, "p", 3307, "database port")
+	flag.IntVar(&port, "p", 3306, "database port")
 	flag.StringVar(&user, "u", "root", "database user")
 	flag.StringVar(&password, "pd", "root", "database password")
 	flag.StringVar(&dbname, "n", "typecho", "database name")
