@@ -19,7 +19,7 @@ type Handler struct {
 }
 
 func (h *Handler) Publish(c *gin.Context) {
-	v := vo{}
+	v := VO{}
 	if err := c.ShouldBindWith(&v, binding.JSON); err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
