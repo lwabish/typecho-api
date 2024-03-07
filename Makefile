@@ -1,4 +1,5 @@
 GEN_TOOL = gentool
+GOBIN ?= $(GOPATH)/bin
 
 ensure-gen-tool:
 	@if ! which $(GEN_TOOL) >/dev/null; then \
@@ -19,3 +20,7 @@ run-test:
 	go test -v ./...
 
 test: setup-env run-test teardown-env
+
+install-client:
+	go build -o output/typora-client client/main.go
+	ln -sf $(shell pwd)/output/typora-client $(GOBIN)/typora-client
