@@ -28,6 +28,10 @@ func (h *Handler) Publish(c *gin.Context) {
 	tc := v.Content
 	if tc.IsNewPost() {
 		tc.PostDefault()
+		if err := tc.PostContentDefault(); err != nil {
+			c.JSON(http.StatusInternalServerError, err.Error())
+			return
+		}
 		if r := h.db.Create(tc); r.Error != nil || r.RowsAffected != 1 {
 			c.JSON(http.StatusInternalServerError, r.Error.Error())
 			return
