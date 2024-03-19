@@ -1,7 +1,8 @@
 version: "0.1"
 database:
   db: mysql
-  dsn: root:root@tcp(127.0.0.1:3307)/typecho?charset=utf8mb4&parseTime=True&loc=Local
+#  fixme: content表可能有额外的字段
+  dsn: root:root@tcp(127.0.0.1:3306)/typecho?charset=utf8mb4&parseTime=True&loc=Local
   tables:
     - typecho_contents
     - typecho_metas

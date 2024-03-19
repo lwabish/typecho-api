@@ -25,11 +25,6 @@ type TypechoContent struct {
 	AllowPing    string `gorm:"column:allowPing;default:0" json:"allowPing"`
 	AllowFeed    string `gorm:"column:allowFeed;default:0" json:"allowFeed"`
 	Parent       int32  `gorm:"column:parent" json:"parent"`
-	Views        int32  `gorm:"column:views" json:"views"`
-	Agree        int32  `gorm:"column:agree" json:"agree"`
-	WordCount    int32  `gorm:"column:wordCount" json:"wordCount"`
-	Likes        int32  `gorm:"column:likes" json:"likes"`
-	ViewsNum     int32  `gorm:"column:viewsNum" json:"viewsNum"`
 }
 
 // TableName TypechoContent's table name
