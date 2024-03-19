@@ -5,18 +5,15 @@ import (
 	"flag"
 	"fmt"
 	"github.com/lwabish/typecho-api/handlers/content"
-	"gopkg.in/yaml.v3"
+	"github.com/lwabish/typecho-api/utils"
 	"io"
 	"log"
 	"net/http"
 	"os"
-	"regexp"
+	p "path"
+	"strconv"
 	"strings"
 )
-
-type frontMatter struct {
-	Cid int `yaml:"cid"`
-}
 
 var (
 	server string
@@ -33,15 +30,21 @@ func main() {
 	log.Println("typecho-api server address:", server)
 	log.Println("post path:", path)
 
+	_, filename := p.Split(path)
+	title := strings.SplitN(filename, "-", 2)[1]
+
 	bytes, err := os.ReadFile(path)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	fm := newFrontMatter(string(bytes))
+	c := string(bytes)
+	pureContent := utils.RemoveFrontMatter(c)
+
+	fm := ParseFrontMatter(c)
 	log.Println("fm:", fm)
 
-	payload := buildPayload(fm)
+	payload := buildPayload(fm, title, pureContent)
 	log.Println("payload:", payload)
 
 	res, err := putContent(payload)
@@ -50,10 +53,24 @@ func main() {
 	}
 
 	log.Println("res:", res)
+	cid, err := strconv.Atoi(res)
+	if err != nil {
+		log.Fatalf("%s is not a number: %v", res, err)
+	}
+	fm.Cid = cid
 
+	finalContent := strings.Join(append([]string{
+		fm.String(),
+	}, pureContent), "")
+
+	err = os.WriteFile(path, []byte(finalContent), 0644)
+	if err != nil {
+		log.Printf("write file failed: %v", err)
+		return
+	}
 }
 
-func buildPayload(matter *frontMatter) *content.VO {
+func buildPayload(matter *FrontMatter, title string, text string) *content.VO {
 	//`{
 	//    "content": {
 	//        "title": "title",
@@ -65,25 +82,17 @@ func buildPayload(matter *frontMatter) *content.VO {
 	//        "tags": ["a","b","7CWZo"]
 	//    }
 	//}`
-	vo := content.NewVo()
+	vo := content.NewVo().
+		SetText(text).
+		SetTitle(title).
+		SetSlug(title).
+		SetCategories(matter.Categories).
+		SetTags(matter.Tags)
 
 	if matter.Cid != 0 {
 		vo.SetCid(matter.Cid)
 	}
 	return vo
-}
-
-func newFrontMatter(markdown string) *frontMatter {
-	f := &frontMatter{}
-	re := regexp.MustCompile(`(?s)^---\n(.+?)\n---`)
-	matches := re.FindStringSubmatch(markdown)
-	if len(matches) >= 2 {
-		yamlContent := matches[1]
-		if err := yaml.Unmarshal([]byte(yamlContent), f); err != nil {
-			log.Println(err)
-		}
-	}
-	return f
 }
 
 func putContent(vo *content.VO) (string, error) {

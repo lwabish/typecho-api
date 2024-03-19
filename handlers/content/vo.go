@@ -10,6 +10,31 @@ type VO struct {
 	} `json:"meta"`
 }
 
+func (v *VO) SetText(c string) *VO {
+	v.Content.Text = c
+	return v
+}
+
+func (v *VO) SetTitle(t string) *VO {
+	v.Content.Title = t
+	return v
+}
+
+func (v *VO) SetCategories(cs []models.Category) *VO {
+	v.Meta.Categories = cs
+	return v
+}
+
+func (v *VO) SetTags(tags []models.Tag) *VO {
+	v.Meta.Tags = tags
+	return v
+}
+
+func (v *VO) SetSlug(s string) *VO {
+	v.Content.Slug = s
+	return v
+}
+
 func NewVo() *VO {
 	return &VO{
 		Content: &models.TypechoContent{},

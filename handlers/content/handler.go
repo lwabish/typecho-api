@@ -18,6 +18,8 @@ type Handler struct {
 	*log.Logger
 }
 
+// Publish
+// todo: rollback on error
 func (h *Handler) Publish(c *gin.Context) {
 	v := VO{}
 	if err := c.ShouldBindWith(&v, binding.JSON); err != nil {
