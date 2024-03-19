@@ -22,5 +22,5 @@ run-test:
 test: setup-env run-test teardown-env
 
 install-client:
-	go build -o output/typora-client client/main.go
+	go build -o output/typora-client ./client/
 	ln -sf $(shell pwd)/output/typora-client $(GOBIN)/typora-client
