@@ -57,3 +57,8 @@ func (m *TypechoMeta) setDefaultValue(db *gorm.DB) {
 		m.Order = tmp.Order + 1
 	}
 }
+
+func (m *TypechoMeta) AddCount(db *gorm.DB) {
+	m.Count += 1
+	db.Save(m)
+}

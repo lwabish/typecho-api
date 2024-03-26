@@ -58,7 +58,7 @@ func (h *Handler) Publish(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, err.Error())
 			return
 		}
-		if err = models.AddRelationship(h.db, tc.Cid, tm.Mid); err != nil {
+		if err = models.AddRelationship(h.db, tc.Cid, tm); err != nil {
 			c.JSON(http.StatusInternalServerError, err.Error())
 			return
 		}
