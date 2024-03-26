@@ -7,6 +7,7 @@ services:
     healthcheck:
       test: [ "CMD", "mariadb", "-u", "root", "-proot","-e","select 1" ]
       interval: 2s
+      retries: 6
     environment:
       MYSQL_ROOT_PASSWORD: root
       MARIADB_DATABASE: typecho
@@ -14,7 +15,8 @@ services:
       - "3306:3306"
     volumes:
       #      - mariadb:/var/lib/mysql
-      - .hack/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./hack/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./hack/my.log:/var/log/my.log
   typecho:
     container_name: typecho
     image: joyqi/typecho:1.2.1-php8.0-apache
