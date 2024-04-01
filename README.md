@@ -1,5 +1,7 @@
 # Typecho-api
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/lwabish/typecho-api)](https://goreportcard.com/report/github.com/lwabish/typecho-api)
+
 - 提供http api，直接对接操作typecho数据库
 - 目前仅实现了创建/更新文章接口，对接typora的导出功能即可实现typora写完文章后直接发布到typecho
 
