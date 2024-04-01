@@ -43,7 +43,7 @@
   -n string
     	database name (default "typecho")
   -p int
-    	database port (default 3307)
+    	database port (default 3306)
   -pd string
     	database password (default "root")
   -t string
