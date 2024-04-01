@@ -52,7 +52,9 @@
     	database user (default "root")
 ```
 
-## Use-with-typora
+## Use-with-typora[WIP]
+
+目前client目录中的typora exporter仅用作开发阶段测试，未来考虑把typora exporter独立到单独的仓库维护
 
 [文档](./client/Readme.md)
 
